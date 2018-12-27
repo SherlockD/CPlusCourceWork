@@ -30,6 +30,12 @@
     <ClInclude Include="MyRecords.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="AddProfession.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="MySqlWork.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -52,6 +58,12 @@
     <ClCompile Include="MyRecords.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="AddProfession.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="MySqlWork.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico">
@@ -63,6 +75,12 @@
       <Filter>Файлы ресурсов</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="record.resx">
+      <Filter>Файлы ресурсов</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyRecords.resx">
+      <Filter>Файлы ресурсов</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddProfession.resx">
       <Filter>Файлы ресурсов</Filter>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,3 +1,4 @@
+  CPlusCourceWork.AddProfession.resources - Embedded, ContainedInManifestFile, 
   CPlusCourceWork.MainForm.resources - Embedded, ContainedInManifestFile, 
   CPlusCourceWork.MyRecords.resources - Embedded, ContainedInManifestFile, 
   CPlusCourceWork.record.resources - Embedded, ContainedInManifestFile, 
@@ -18,6 +19,9 @@ Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=
 	hash=None, flags=None
 Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
+Class CPlusCourceWork.AddProfession: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class CPlusCourceWork.record: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

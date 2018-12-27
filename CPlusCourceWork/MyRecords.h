@@ -2,6 +2,7 @@
 #include <string>
 #include <stdio.h>
 #include <msclr\marshal_cppstd.h>
+#include "MySqlWork.h"
 
 namespace CPlusCourceWork {
 
@@ -12,6 +13,7 @@ namespace CPlusCourceWork {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace MySql::Data::MySqlClient;
+	using namespace MySqlWorkNameSpace;
 
 	/// <summary>
 	/// —водка дл€ MyRecords
@@ -22,7 +24,7 @@ namespace CPlusCourceWork {
 		MyRecords(String^ login)
 		{
 			InitializeComponent();
-			MySqlDataReader^ dataReader = ExecuteQuery("SELECT user,doctor_name,record_date,record_time FROM records WHERE user = '"+login+"'");
+			MySqlDataReader^ dataReader = MySqlWork::ExecuteQuery("SELECT user,doctor_name,record_date,record_time FROM records WHERE user = '" + login + "'");
 			if (dataReader != nullptr) {
 				while (dataReader->Read())
 				{
@@ -50,7 +52,6 @@ namespace CPlusCourceWork {
 	private: System::Windows::Forms::ListView^  listView1;
 	protected:
 	private: System::Windows::Forms::Button^  button1;
-	private: String^ connectionInfo = "datasource=localhost;port=3306;username=root;password=admin;database=cpluscource";
 	private: System::Windows::Forms::ColumnHeader^  user;
 	private: System::Windows::Forms::ColumnHeader^  doctor;
 	private: System::Windows::Forms::ColumnHeader^  date;
@@ -62,34 +63,6 @@ namespace CPlusCourceWork {
 		/// </summary>
 		System::ComponentModel::Container ^components;
 
-
-		MySqlDataReader^ ExecuteQuery(String^ query)
-		{
-			MySqlConnection^ connection = gcnew MySqlConnection(connectionInfo);
-			MySqlCommand^ connectionCmd = gcnew MySqlCommand(query, connection);
-			MySqlDataReader^ dataReader;
-
-			try
-			{
-				connection->Open();
-				dataReader = connectionCmd->ExecuteReader();
-
-				if (dataReader->HasRows)
-				{
-					return dataReader;
-				}
-				else
-				{
-					return nullptr;
-				}
-
-				dataReader->Close();
-			}
-			catch (Exception^ex)
-			{
-				MessageBox::Show(ex->Message);
-			}
-		}
 #pragma region Windows Form Designer generated code
 		/// <summary>
 		/// “ребуемый метод дл€ поддержки конструктора Ч не измен€йте 
@@ -158,6 +131,7 @@ namespace CPlusCourceWork {
 			this->Controls->Add(this->listView1);
 			this->Name = L"MyRecords";
 			this->Text = L"MyRecords";
+			this->Load += gcnew System::EventHandler(this, &MyRecords::MyRecords_Load);
 			this->ResumeLayout(false);
 
 		}
@@ -170,7 +144,7 @@ namespace CPlusCourceWork {
 	{
 		DateTime^ myDate = DateTime::ParseExact(listView1->FocusedItem->SubItems[2]->Text, "dd.MM.yyyy H:mm:ss",
 			System::Globalization::CultureInfo::InvariantCulture);
-		ExecuteQuery("DELETE FROM records WHERE user='" + listView1->FocusedItem->Text + "' AND doctor_name='" + listView1->FocusedItem->SubItems[1]->Text + "' AND record_date='" + getTimeStamp(myDate) + "' AND record_time = '" + listView1->FocusedItem->SubItems[3]->Text + "'");
+		MySqlWork::ExecuteQuery("DELETE FROM records WHERE user='" + listView1->FocusedItem->Text + "' AND doctor_name='" + listView1->FocusedItem->SubItems[1]->Text + "' AND record_date='" + getTimeStamp(myDate) + "' AND record_time = '" + listView1->FocusedItem->SubItems[3]->Text + "'");
 		MessageBox::Show("”спешно удалено");
 		this->Close();
 	}
@@ -180,5 +154,7 @@ namespace CPlusCourceWork {
 	{
 
 	}
+private: System::Void MyRecords_Load(System::Object^  sender, System::EventArgs^  e) {
+}
 };
 }

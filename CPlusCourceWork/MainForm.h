@@ -1,6 +1,8 @@
 #pragma once
 #include "record.h"
 #include "MyRecords.h"
+#include "MySqlWork.h"
+#include "AddProfession.h"
 
 namespace CPlusCourceWork {
 
@@ -10,6 +12,9 @@ namespace CPlusCourceWork {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Security::Cryptography; 
+	using namespace System::Text;
+	using namespace MySqlWorkNameSpace;
 
 	using namespace MySql::Data::MySqlClient;
 	/// <summary>
@@ -43,12 +48,12 @@ namespace CPlusCourceWork {
 	private: System::Windows::Forms::TextBox^  textBox2;
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Button^  button3;
-	private: String^ connectionInfo = "datasource=localhost;port=3306;username=root;password=admin;database=cpluscource";
 
 	private: String^ userLogin;
 	private: bool isLogin = false;
 	private: record^ newRecord;
 	private: MyRecords^ newMyRecords;
+	private: AddProfession^ newAddProfession;
 
 	private: String^ userRole;
 	private: System::Windows::Forms::Label^  label2;
@@ -58,8 +63,10 @@ namespace CPlusCourceWork {
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Button^  button6;
 	private: System::Windows::Forms::Label^  label4;
-	private: System::Windows::Forms::TextBox^  textBox4;
+
 	private: System::Windows::Forms::TextBox^  textBox3;
+	private: System::Windows::Forms::ListBox^  listBox1;
+	private: System::Windows::Forms::Button^  button7;
 	protected:
 
 	private:
@@ -87,9 +94,10 @@ namespace CPlusCourceWork {
 			this->fileSystemWatcher1 = (gcnew System::IO::FileSystemWatcher());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->button6 = (gcnew System::Windows::Forms::Button());
+			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+			this->button7 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->fileSystemWatcher1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -126,6 +134,7 @@ namespace CPlusCourceWork {
 			// 
 			this->textBox2->Location = System::Drawing::Point(339, 87);
 			this->textBox2->Name = L"textBox2";
+			this->textBox2->PasswordChar = '*';
 			this->textBox2->Size = System::Drawing::Size(213, 20);
 			this->textBox2->TabIndex = 3;
 			this->textBox2->Text = L"password";
@@ -204,14 +213,6 @@ namespace CPlusCourceWork {
 			this->textBox3->TabIndex = 10;
 			this->textBox3->Visible = false;
 			// 
-			// textBox4
-			// 
-			this->textBox4->Location = System::Drawing::Point(339, 87);
-			this->textBox4->Name = L"textBox4";
-			this->textBox4->Size = System::Drawing::Size(213, 20);
-			this->textBox4->TabIndex = 11;
-			this->textBox4->Visible = false;
-			// 
 			// label4
 			// 
 			this->label4->AutoSize = true;
@@ -224,7 +225,7 @@ namespace CPlusCourceWork {
 			// 
 			// button6
 			// 
-			this->button6->Location = System::Drawing::Point(339, 114);
+			this->button6->Location = System::Drawing::Point(339, 174);
 			this->button6->Name = L"button6";
 			this->button6->Size = System::Drawing::Size(213, 23);
 			this->button6->TabIndex = 13;
@@ -233,14 +234,35 @@ namespace CPlusCourceWork {
 			this->button6->Visible = false;
 			this->button6->Click += gcnew System::EventHandler(this, &MainForm::button6_Click);
 			// 
+			// listBox1
+			// 
+			this->listBox1->FormattingEnabled = true;
+			this->listBox1->Location = System::Drawing::Point(339, 87);
+			this->listBox1->Name = L"listBox1";
+			this->listBox1->Size = System::Drawing::Size(213, 82);
+			this->listBox1->TabIndex = 14;
+			this->listBox1->Visible = false;
+			// 
+			// button7
+			// 
+			this->button7->Location = System::Drawing::Point(34, 289);
+			this->button7->Name = L"button7";
+			this->button7->Size = System::Drawing::Size(200, 43);
+			this->button7->TabIndex = 15;
+			this->button7->Text = L"(Админ) Добавить должность";
+			this->button7->UseVisualStyleBackColor = true;
+			this->button7->Visible = false;
+			this->button7->Click += gcnew System::EventHandler(this, &MainForm::button7_Click);
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(625, 292);
+			this->ClientSize = System::Drawing::Size(625, 351);
+			this->Controls->Add(this->button7);
+			this->Controls->Add(this->listBox1);
 			this->Controls->Add(this->button6);
 			this->Controls->Add(this->label4);
-			this->Controls->Add(this->textBox4);
 			this->Controls->Add(this->textBox3);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->button5);
@@ -272,22 +294,35 @@ namespace CPlusCourceWork {
 			button4->Hide();
 		}
 
+		String^ GetHash(String^ str) 
+		{
+			StringBuilder^ hash = gcnew StringBuilder();
+			MD5^ md5provider = MD5::Create();
+			auto bytes = md5provider->ComputeHash(Encoding::UTF8->GetBytes(str));
+
+			for (int i = 0; i < bytes->Length; i++)
+			{
+				hash->Append(bytes[i].ToString("x2"));
+			}
+			return hash->ToString();
+		}
+
 		bool loginInto(String^ login,String^ pass) 
 		{
 			String^ query = "SELECT * FROM users WHERE user_login = '" + login + "'";
-			MySqlDataReader^ dataReader = ExecuteQuery(query);
+			MySqlDataReader^ dataReader = MySqlWork::ExecuteQuery(query);
 			if (dataReader != nullptr) 
 			{
 				dataReader->Read();
-				if (login == dataReader->GetString(1) && pass == dataReader->GetString(2))
-				{
-					label3->Text = "Добро пожаловать:" + login;
-					userLogin = login;
-					userRole = dataReader->GetString(3);
+					if (login == dataReader->GetString(1) && GetHash(pass) == dataReader->GetString(2))
+					{
+						label3->Text = "Добро пожаловать:" + login;
+						userLogin = login;
+						userRole = dataReader->GetString(3);
 
-					return true;
-				}
-			}
+						return true;
+					}
+				}			
 			else 
 			{
 				label2->Text = "Неверный логин или пароль";
@@ -298,36 +333,8 @@ namespace CPlusCourceWork {
 		void addDoctor(String^ fio, String^ profession) 
 		{
 			String^ query = "INSERT INTO doctors(doctor_fio,doctor_profession) VALUES('" + fio + "','" + profession + "')";
-			MySqlDataReader^ dataReader = ExecuteQuery(query);
+			MySqlDataReader^ dataReader = MySqlWork::ExecuteQuery(query);
 			MessageBox::Show("Доктор успешно добавлен");
-		}
-
-		MySqlDataReader^ ExecuteQuery(String^ query)
-		{
-			MySqlConnection^ connection = gcnew MySqlConnection(connectionInfo);
-			MySqlCommand^ connectionCmd = gcnew MySqlCommand(query,connection);
-			MySqlDataReader^ dataReader;
-
-			try 
-			{
-				connection->Open();
-				dataReader = connectionCmd->ExecuteReader();
-				
-				if (dataReader->HasRows) 
-				{
-					return dataReader;
-				}
-				else 
-				{
-					return nullptr;
-				}
-				
-				dataReader->Close();
-			}
-			catch (Exception^ex) 
-			{
-				MessageBox::Show(ex->Message);
-			}
 		}
 
 #pragma endregion
@@ -358,12 +365,17 @@ namespace CPlusCourceWork {
 			userRole = "";
 			label3->Text = "";
 			HideSimpleUsersForms();
+			HideAddDoctorPanel();
 			button5->Hide();
+			button7->Hide();
 			ShowLoginForm();
+			if(newAddProfession!=nullptr)newAddProfession->Close();
+			if(newRecord != nullptr)newRecord->Close();
 		}
 		else 
 		{
 			ShowLoginForm();
+			button1->Text = "Войти";
 		}
 	}
 	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) 
@@ -378,6 +390,7 @@ namespace CPlusCourceWork {
 			if (userRole == "admin") 
 			{
 				button5->Show();
+				button7->Show();
 			}
 			button1->Text = "Выйти";
 		}
@@ -388,9 +401,9 @@ namespace CPlusCourceWork {
 	}
 	private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) 
 	{
-		if (textBox3->Text != "" && textBox4->Text != "") 
+		if (textBox3->Text != "" && listBox1->SelectedItem->ToString() != "") 
 		{
-			addDoctor(textBox3->Text, textBox4->Text);
+			addDoctor(textBox3->Text, listBox1->SelectedItem->ToString());
 		}
 	}
 	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) 
@@ -400,17 +413,37 @@ namespace CPlusCourceWork {
 		newRecord->Show();
 	}
 
+	private:void HideAddDoctorPanel() 
+	{
+		label4->Hide();
+		textBox3->Hide();
+		listBox1->Hide();
+		button6->Hide();
+	}
+
 	private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) 
 	{
 		label4->Show();
 		textBox3->Show();
-		textBox4->Show();
+		listBox1->Show();
 		button6->Show();
+		listBox1->Items->Clear();
+		MySqlDataReader^ dataReader = MySqlWork::ExecuteQuery("SELECT profession FROM professions");
+		while (dataReader->Read()) 
+		{
+			listBox1->Items->Add(dataReader->GetString(0));
+		}
 	}
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) 
 {
 	newMyRecords = gcnew MyRecords(userLogin);
 	newMyRecords->Show();
+}
+
+private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) 
+{
+	newAddProfession = gcnew AddProfession();
+	newAddProfession->Show();
 }
 };
 }

@@ -134,12 +134,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AddProfession.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="MyRecords.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="MySqlWork.h" />
     <ClInclude Include="record.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -150,9 +154,11 @@
     <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddProfession.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="MyRecords.cpp" />
+    <ClCompile Include="MySqlWork.cpp" />
     <ClCompile Include="record.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -173,6 +179,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddProfession.resx">
+      <DependentUpon>AddProfession.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
     </EmbeddedResource>
