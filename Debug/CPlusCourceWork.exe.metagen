@@ -2,6 +2,7 @@
   CPlusCourceWork.MainForm.resources - Embedded, ContainedInManifestFile, 
   CPlusCourceWork.MyRecords.resources - Embedded, ContainedInManifestFile, 
   CPlusCourceWork.record.resources - Embedded, ContainedInManifestFile, 
+  CPlusCourceWork.Registration.resources - Embedded, ContainedInManifestFile, 
 ImageRuntimeVersion: v4.0.30319
 Assembly CPlusCourceWork, Version=1.0.*, Culture=Инвариантный язык (Инвариантная страна): 
 	hash=SHA1, flags=PublicKey
@@ -30,6 +31,9 @@ Class CPlusCourceWork.record: AutoLayout, AnsiClass, Class, Public, BeforeFieldI
 Class CPlusCourceWork.MyRecords: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(System.String): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class CPlusCourceWork.Registration: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class CPlusCourceWork.MainForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

@@ -44,5 +44,18 @@ namespace MySqlWorkNameSpace {
 				MessageBox::Show(ex->Message);
 			}
 		}
+
+	public:static String^ GetHash(String^ str)
+	{
+		StringBuilder^ hash = gcnew StringBuilder();
+		MD5^ md5provider = MD5::Create();
+		auto bytes = md5provider->ComputeHash(Encoding::UTF8->GetBytes(str));
+
+		for (int i = 0; i < bytes->Length; i++)
+		{
+			hash->Append(bytes[i].ToString("x2"));
+		}
+		return hash->ToString();
+	}
 	};
 }

@@ -147,6 +147,9 @@
     <ClInclude Include="record.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Registration.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
@@ -160,6 +163,7 @@
     <ClCompile Include="MyRecords.cpp" />
     <ClCompile Include="MySqlWork.cpp" />
     <ClCompile Include="record.cpp" />
+    <ClCompile Include="Registration.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -190,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="record.resx">
       <DependentUpon>record.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registration.resx">
+      <DependentUpon>Registration.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

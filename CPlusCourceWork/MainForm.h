@@ -3,6 +3,7 @@
 #include "MyRecords.h"
 #include "MySqlWork.h"
 #include "AddProfession.h"
+#include "Registration.h"
 
 namespace CPlusCourceWork {
 
@@ -54,6 +55,7 @@ namespace CPlusCourceWork {
 	private: record^ newRecord;
 	private: MyRecords^ newMyRecords;
 	private: AddProfession^ newAddProfession;
+	private: Registration^ newRegistration;
 
 	private: String^ userRole;
 	private: System::Windows::Forms::Label^  label2;
@@ -67,6 +69,7 @@ namespace CPlusCourceWork {
 	private: System::Windows::Forms::TextBox^  textBox3;
 	private: System::Windows::Forms::ListBox^  listBox1;
 	private: System::Windows::Forms::Button^  button7;
+	private: System::Windows::Forms::Button^  button8;
 	protected:
 
 	private:
@@ -98,6 +101,7 @@ namespace CPlusCourceWork {
 			this->button6 = (gcnew System::Windows::Forms::Button());
 			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
 			this->button7 = (gcnew System::Windows::Forms::Button());
+			this->button8 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->fileSystemWatcher1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -254,11 +258,22 @@ namespace CPlusCourceWork {
 			this->button7->Visible = false;
 			this->button7->Click += gcnew System::EventHandler(this, &MainForm::button7_Click);
 			// 
+			// button8
+			// 
+			this->button8->Location = System::Drawing::Point(34, 96);
+			this->button8->Name = L"button8";
+			this->button8->Size = System::Drawing::Size(200, 48);
+			this->button8->TabIndex = 16;
+			this->button8->Text = L"Зарегистрироваться";
+			this->button8->UseVisualStyleBackColor = true;
+			this->button8->Click += gcnew System::EventHandler(this, &MainForm::button8_Click);
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(625, 351);
+			this->Controls->Add(this->button8);
 			this->Controls->Add(this->button7);
 			this->Controls->Add(this->listBox1);
 			this->Controls->Add(this->button6);
@@ -294,19 +309,6 @@ namespace CPlusCourceWork {
 			button4->Hide();
 		}
 
-		String^ GetHash(String^ str) 
-		{
-			StringBuilder^ hash = gcnew StringBuilder();
-			MD5^ md5provider = MD5::Create();
-			auto bytes = md5provider->ComputeHash(Encoding::UTF8->GetBytes(str));
-
-			for (int i = 0; i < bytes->Length; i++)
-			{
-				hash->Append(bytes[i].ToString("x2"));
-			}
-			return hash->ToString();
-		}
-
 		bool loginInto(String^ login,String^ pass) 
 		{
 			String^ query = "SELECT * FROM users WHERE user_login = '" + login + "'";
@@ -314,7 +316,7 @@ namespace CPlusCourceWork {
 			if (dataReader != nullptr) 
 			{
 				dataReader->Read();
-					if (login == dataReader->GetString(1) && GetHash(pass) == dataReader->GetString(2))
+					if (login == dataReader->GetString(1) && MySqlWork::GetHash(pass) == dataReader->GetString(2))
 					{
 						label3->Text = "Добро пожаловать:" + login;
 						userLogin = login;
@@ -368,13 +370,14 @@ namespace CPlusCourceWork {
 			HideAddDoctorPanel();
 			button5->Hide();
 			button7->Hide();
+			button8->Show();
 			ShowLoginForm();
 			if(newAddProfession!=nullptr)newAddProfession->Close();
 			if(newRecord != nullptr)newRecord->Close();
 		}
 		else 
 		{
-			ShowLoginForm();
+			ShowLoginForm();				
 			button1->Text = "Войти";
 		}
 	}
@@ -385,6 +388,7 @@ namespace CPlusCourceWork {
 		if (loginInto(login, password)) 
 		{
 			isLogin = true;
+			button8->Hide();
 			HideLoginForm();
 			ShowSimpleUsersForms();
 			if (userRole == "admin") 
@@ -444,6 +448,11 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 {
 	newAddProfession = gcnew AddProfession();
 	newAddProfession->Show();
+}
+private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) 
+{
+	newRegistration = gcnew Registration();
+	newRegistration->Show();
 }
 };
 }
