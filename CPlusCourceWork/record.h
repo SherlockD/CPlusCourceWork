@@ -44,7 +44,7 @@ namespace CPlusCourceWork {
 				delete components;
 			}
 		}
-	private: String^ connectionInfo = "datasource=localhost;port=3306;username=root;password=admin;database=cpluscource";
+	private: String^ connectionInfo = "datasource=localhost;port=3306;username=root;password=;database=cpluscource";
 	private: System::Windows::Forms::ListBox^  listBox1;
 	private: System::Windows::Forms::DateTimePicker^  dateTimePicker1;
 
@@ -87,14 +87,14 @@ namespace CPlusCourceWork {
 			// listBox1
 			// 
 			this->listBox1->FormattingEnabled = true;
-			this->listBox1->Location = System::Drawing::Point(31, 82);
+			this->listBox1->Location = System::Drawing::Point(31, 304);
 			this->listBox1->Name = L"listBox1";
 			this->listBox1->Size = System::Drawing::Size(120, 95);
 			this->listBox1->TabIndex = 0;
 			// 
 			// dateTimePicker1
 			// 
-			this->dateTimePicker1->Location = System::Drawing::Point(31, 39);
+			this->dateTimePicker1->Location = System::Drawing::Point(31, 265);
 			this->dateTimePicker1->Name = L"dateTimePicker1";
 			this->dateTimePicker1->Size = System::Drawing::Size(200, 20);
 			this->dateTimePicker1->TabIndex = 1;
@@ -103,7 +103,7 @@ namespace CPlusCourceWork {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(28, 23);
+			this->label1->Location = System::Drawing::Point(31, 249);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(84, 13);
 			this->label1->TabIndex = 2;
@@ -112,7 +112,7 @@ namespace CPlusCourceWork {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(31, 66);
+			this->label2->Location = System::Drawing::Point(28, 288);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(92, 13);
 			this->label2->TabIndex = 3;
@@ -121,7 +121,7 @@ namespace CPlusCourceWork {
 			// listBox2
 			// 
 			this->listBox2->FormattingEnabled = true;
-			this->listBox2->Location = System::Drawing::Point(31, 316);
+			this->listBox2->Location = System::Drawing::Point(34, 139);
 			this->listBox2->Name = L"listBox2";
 			this->listBox2->Size = System::Drawing::Size(200, 95);
 			this->listBox2->TabIndex = 4;
@@ -129,7 +129,7 @@ namespace CPlusCourceWork {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(28, 300);
+			this->label3->Location = System::Drawing::Point(31, 123);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(89, 13);
 			this->label3->TabIndex = 5;
@@ -156,7 +156,7 @@ namespace CPlusCourceWork {
 			// listBox3
 			// 
 			this->listBox3->FormattingEnabled = true;
-			this->listBox3->Location = System::Drawing::Point(31, 200);
+			this->listBox3->Location = System::Drawing::Point(34, 25);
 			this->listBox3->Name = L"listBox3";
 			this->listBox3->Size = System::Drawing::Size(152, 95);
 			this->listBox3->TabIndex = 8;
@@ -165,7 +165,7 @@ namespace CPlusCourceWork {
 			// label5
 			// 
 			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(31, 184);
+			this->label5->Location = System::Drawing::Point(31, 9);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(97, 13);
 			this->label5->TabIndex = 9;
@@ -188,6 +188,7 @@ namespace CPlusCourceWork {
 			this->Controls->Add(this->listBox1);
 			this->Name = L"record";
 			this->Text = L"record";
+			this->Load += gcnew System::EventHandler(this, &record::record_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -245,7 +246,7 @@ namespace CPlusCourceWork {
 		if (dateTimePicker1->Value > DateTime::Now) 
 		{
 			choosenTime = dateTimePicker1->Value.ToShortDateString();
-			MySqlDataReader^ dataReader = ExecuteQuery("SELECT record_time FROM records WHERE record_date = '"+ getTimeStamp(dateTimePicker1->Value) +"'");
+			MySqlDataReader^ dataReader = ExecuteQuery("SELECT record_time FROM records WHERE record_date = '"+ getTimeStamp(dateTimePicker1->Value) +"' AND doctor_name= '"+listBox2->SelectedItem+"'");
 			if (dataReader != nullptr) {
 				while (dataReader->Read())
 				{
@@ -272,21 +273,27 @@ namespace CPlusCourceWork {
 private: System::Void listBox3_SelectedIndexChanged(System::Object^  sender, System::EventArgs^  e)
 {
 	listBox2->Items->Clear();
+	listBox1->Items->Clear();
 	MySqlDataReader^ dataReader = ExecuteQuery("SELECT doctor_fio from doctors WHERE doctor_profession='"+listBox3->SelectedItem+"'");
-	while (dataReader->Read())
+	if (dataReader != nullptr)
 	{
-		listBox2->Items->Add(dataReader->GetString(0));
+		while (dataReader->Read())
+		{
+			listBox2->Items->Add(dataReader->GetString(0));
+		}
 	}
 }
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) 
 {
-	if (listBox2->SelectedItem!="" || getTimeStamp(dateTimePicker1->Value)!= "" || listBox1->SelectedItem!="") 
+	if (listBox2->SelectedItem!="" && getTimeStamp(dateTimePicker1->Value)!= "" && listBox1->SelectedItem!="") 
 	{
 		ExecuteQuery("INSERT INTO records(user,doctor_name,record_date,record_time) VALUES('" +login + "','" + listBox2->SelectedItem + "','" + getTimeStamp(dateTimePicker1->Value) + "','" + listBox1->SelectedItem + "')");
 		listBox1->ClearSelected();
 		MessageBox::Show("Вы успешно записались на прием");
 		this->Close();
 	}
+}
+private: System::Void record_Load(System::Object^  sender, System::EventArgs^  e) {
 }
 };
 }

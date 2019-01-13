@@ -137,6 +137,15 @@
     <ClInclude Include="AddProfession.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="add_user_card.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="DoctorRecords.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="getUserCard.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MainForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -147,22 +156,32 @@
     <ClInclude Include="record.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="record_on_analyze.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Registration.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WorkersList.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddProfession.cpp" />
+    <ClCompile Include="add_user_card.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="DoctorRecords.cpp" />
+    <ClCompile Include="getUserCard.cpp" />
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="MyRecords.cpp" />
     <ClCompile Include="MySqlWork.cpp" />
     <ClCompile Include="record.cpp" />
+    <ClCompile Include="record_on_analyze.cpp" />
     <ClCompile Include="Registration.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -170,6 +189,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="WorkersList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico" />
@@ -186,6 +206,15 @@
     <EmbeddedResource Include="AddProfession.resx">
       <DependentUpon>AddProfession.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="add_user_card.resx">
+      <DependentUpon>add_user_card.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DoctorRecords.resx">
+      <DependentUpon>DoctorRecords.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="getUserCard.resx">
+      <DependentUpon>getUserCard.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.h</DependentUpon>
     </EmbeddedResource>
@@ -195,8 +224,14 @@
     <EmbeddedResource Include="record.resx">
       <DependentUpon>record.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="record_on_analyze.resx">
+      <DependentUpon>record_on_analyze.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Registration.resx">
       <DependentUpon>Registration.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkersList.resx">
+      <DependentUpon>WorkersList.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

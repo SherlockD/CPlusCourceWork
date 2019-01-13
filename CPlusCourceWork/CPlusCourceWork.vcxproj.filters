@@ -39,6 +39,21 @@
     <ClInclude Include="Registration.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="WorkersList.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="DoctorRecords.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="record_on_analyze.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="add_user_card.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="getUserCard.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">
@@ -70,6 +85,21 @@
     <ClCompile Include="Registration.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="WorkersList.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="DoctorRecords.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="record_on_analyze.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="add_user_card.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="getUserCard.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="app.ico">
@@ -87,6 +117,21 @@
       <Filter>Файлы ресурсов</Filter>
     </EmbeddedResource>
     <EmbeddedResource Include="AddProfession.resx">
+      <Filter>Файлы ресурсов</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registration.resx">
+      <Filter>Файлы ресурсов</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkersList.resx">
+      <Filter>Файлы ресурсов</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DoctorRecords.resx">
+      <Filter>Файлы ресурсов</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="record_on_analyze.resx">
+      <Filter>Файлы ресурсов</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="add_user_card.resx">
       <Filter>Файлы ресурсов</Filter>
     </EmbeddedResource>
   </ItemGroup>
